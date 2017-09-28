@@ -32,11 +32,45 @@
                 16位位移由编译程序在编译时算出；
 
 10.4 转移的目的地址在指令中的call指令：
+        1）指令“call far ptr 标号”实现的是段间转移：
+                1> （sp）=(sp)-2
+                    ((ss)*16+(sp))=(cs)
+                    (sp)=(sp)-2
+                    ((ss)*16+(sp))=(ip)
+                2> (cs)=标号所在段的段地址
+                  （ip）=标号在段中的偏移地址
+                用汇编语法来解释，CPU执行指令“call far ptr 标号”时，相当于进行：
+                        push cs
+                        push ip
+                        jmp far ptr 标号
 
+10.5 转移地址在寄存器中的call 指令：
+                1）指令格式：call 16位寄存器，功能：                
+                        (sp)=(sp)-2
+                        ((ss)*16+(sp))=(ip)
+                        (ip)=(16位寄存器）
+                        用汇编语法来解释，相当于进行：
+                                push ip
+                                jmp 16位寄存器
+ 
+ 10.6 转移地址在内存中的call 指令：
+        1）转移地址在内存中的call 指令有两种格式：
+                1> call word ptr 内存单元地址，用汇编语法来解释:
+                        push ip
+                        jmp word ptr 内存单元地址
+                2> call dword ptr 内存单元地址，相当于：
+                        push cs
+                        push ip
+                        jmp dword ptr 内存单元地址
 
-
-
-
-
-
+10.7 call和ret的配合使用：
+        1）我们来看一下CPU执行这个程序的主要过程：
+                1> CPU将call指令的机器码读入，IP指向了call s后的指令mov bx, ax, 然后CPU执行call s指令，将当前的IP值（指令mov bx, ax的偏移
+                   地址）压栈，并将IP的值改变标号s处的偏移地址；
+                2> CPU从标号s处开始执行指令，loop循环完毕后，（ax）=8;
+                3> CPU将ret指令的机器码读入，IP指向了ret指令后的内存单元，然后CPU执行ret指令，从栈中弹出一个值（即call s先前压入的mov bx, ax
+                   指令的偏移地址）送入IP中。则CS:IP指向指令mov bx, ax;
+                4> CPU从mov bx, ax开始执行指令，直至完成；
+                
+                   
 
