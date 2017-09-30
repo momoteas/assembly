@@ -123,7 +123,18 @@
                                 /2 传送的目的位置：es:di;
                                 /3 传送的长度：cx;
                                 /4 传送的方向：DF；
-                        
+11.11 push和popf:
+        1) pushf的功能是将标志寄存器的值压栈，而popf是从栈中弹出数据，进入标志寄存器中。pushf和popf为直接访问标志寄存器提供了一种方法；
+        
+11.12 标志寄存器在Debug中的表示：
+        1）在Debugz中，标志寄存器是按照有意义的各标志位单独表示的。下面列出Debug对我们已知的标志位的表示：
+                标志              值为1的标记                  值为0的标记
+                OF                OV                          NV
+                SF                NG                          PL
+                ZF                ZR                          NZ
+                PF                PE                          PO
+                CF                CY                          NC
+                DF                DN                          UP
                         
                         
                         
